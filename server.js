@@ -9,13 +9,23 @@ const API_key = process.env.API_KEY;
 const port = process.env.PORT;
 
 app.get("/", (req,res) => {
-    var lat = req.query.lat.replace(/[^0-9.]/g, '');
-    var lon = req.query.lon.replace(/[^0-9.]/g, '');
-    var request = require('request');
+    var lat = req.query.lat;
+    var lon = req.query.lon;
+
     request(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_key}&units=imperial`, function(error, response, body) {
+    var request = require('request');
     let data = JSON.parse(body);
+
+    if (!lat || !lon) {
+        return res.status(400).json({ error: 'Latitude and longitude coordinates are required' });
+      }
+
+    lat = lat.replace(/[^0-9.]/g, '');
+    lon = lon.replace(/[^0-9.]/g, '');
     
     
+    
+
     if(response.statusCode === 200) {
         var temp = data.main.temp;
         if (temp > 90) {
