@@ -11,7 +11,6 @@ const port = process.env.PORT;
 app.get("/", (req,res) => {
     var lat = req.query.lat.replace(/[^0-9.]/g, '');
     var lon = req.query.lon.replace(/[^0-9.]/g, '');
-    console.log(lat)
     var request = require('request');
     request(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_key}&units=imperial`, function(error, response, body) {
     let data = JSON.parse(body);
